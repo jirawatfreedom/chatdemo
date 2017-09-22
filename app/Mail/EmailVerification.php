@@ -7,18 +7,18 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class KryptoniteFound extends Mailable
+class EmailVerification extends Mailable
 {
     use Queueable, SerializesModels;
-    public $total = 30;
+    protected $user;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($user)
     {
-        //
+        $this->user = $user;
     }
 
     /**
@@ -28,6 +28,8 @@ class KryptoniteFound extends Mailable
      */
     public function build()
     {
-        return $this->view('email.kryptonite-found');
+        return $this->view('email.email')->with([
+            'email_token' => $this->user->email_token
+        ]);
     }
 }

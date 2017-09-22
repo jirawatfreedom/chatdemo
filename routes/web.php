@@ -42,9 +42,19 @@ Route::post('/messages', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+//TEST Mode
 Route::get('/mail', function () {
     // send an email to "batman@batcave.io"
     Mail::to('batman@batcave.io')->send(new App\Mail\KryptoniteFound);
 
     return view('welcome');
 });
+
+Route::get('/uuid', function () {
+    return App\User::create([
+        'name' => 'Jane',
+        'email' => 'john@jane.com',
+        'password' => bcrypt('password'),
+    ]);
+});
+Route::get('/verifyemail/{token}', 'Auth\RegisterController@verify');
